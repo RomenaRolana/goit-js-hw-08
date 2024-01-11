@@ -1,0 +1,30 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+  margin: 0 auto; /* Centers the gallery if there's a max-width */
+  max-width: 1200px; /* You can set a max-width if required */
+  list-style: none;
+}
+
+.gallery-item {
+  overflow: hidden; /* Ensures that the image doesn't exceed the boundary of the item */
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-out;
+}
+
+.gallery-item:hover .gallery-image {
+  transform: scale(1.05); /* Scales the image to 105% of its size on hover */
+}
+
+/* Ensure the gallery has padding on smaller screens */
+@media (max-width: 768px) {
+  .gallery {
+    padding: 8px;
+  }
+}
