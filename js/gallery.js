@@ -77,6 +77,7 @@ const galleryMarkup = images.map(({ preview, original, description }) => `
   </li>
 `).join('');
 
+
 galleryContainer.innerHTML = galleryMarkup;
 
 galleryContainer.addEventListener('click', onGalleryClick);
