@@ -132,3 +132,4 @@ if (event.key === 'Escape' && lightboxInstance) {
   lightboxInstance.close();
   }
   }
+
