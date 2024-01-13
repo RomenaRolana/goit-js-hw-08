@@ -77,8 +77,10 @@ const galleryMarkup = images.map(({ preview, original, description }) => `
   </li>
 `).join('');
 
-
 galleryContainer.innerHTML = galleryMarkup;
+
+// Ініціалізація basicLightbox інстансу
+let lightboxInstance = null;
 
 galleryContainer.addEventListener('click', onGalleryClick);
 
@@ -90,16 +92,27 @@ function onGalleryClick(event) {
   
     const imageSrc = event.target.dataset.source;
   
-    const instance = basicLightbox.create(`
-      <img src="${imageSrc}" width="800" height="600">
-    `);
-  
-    instance.show();
-  
-    // Додавання слухача подій для клавіші Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        instance.close();
-      }
-    }, { once: true }); // Опція { once: true } забезпечить видалення слухача після першого використання
-  }
+    // Оновлення або створення нового екземпляру basicLightbox
+    if (!lightboxInstance) {
+        lightboxInstance = basicLightbox.create(`
+          <img src="${imageSrc}" width="800" height="600">
+        `, {
+            onShow: (instance) => {
+                document.addEventListener('keydown', onKeydown);
+            },
+            onClose: (instance) => {
+                document.removeEventListener('keydown', onKeydown);
+            }
+        });
+    } else {
+        lightboxInstance.element().querySelector('img').src = imageSrc;
+    }
+
+    lightboxInstance.show();
+}
+
+function onKeydown(event) {
+    if (event.key === 'Escape' && lightboxInstance) {
+        lightboxInstance.close();
+    }
+}
